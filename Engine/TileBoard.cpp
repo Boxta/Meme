@@ -1,6 +1,6 @@
 #include "TileBoard.h"
 
-TileBoard::TileBoard(Vei2& ScreenPosition)
+TileBoard::TileBoard(Vector2_Int& ScreenPosition)
 {
 	_Offset = ScreenPosition;
 	_BoardRectangle = RectI(_Offset, TILEWIDTH * TILESWIDE, TILEDEPTH * TILESDEEP);
@@ -9,7 +9,7 @@ TileBoard::TileBoard(Vei2& ScreenPosition)
 	{
 		for (int y = 0; y < TILESDEEP; ++y)
 		{
-			TileGrid[y * TILESWIDE + x] = Tile(Vei2(x, y));
+			TileGrid[y * TILESWIDE + x] = Tile(Vector2_Int(x, y));
 		}
 	}
 }
@@ -31,11 +31,11 @@ void TileBoard::DrawBoard(Graphics & gfx)
 	}
 }
 
-TileBoard::Tile::Tile(Vei2& BoardPosition)
+TileBoard::Tile::Tile(Vector2_Int& BoardPosition)
 {
 	_TileState = State::Hidden;
 	_TileBoardPosition = BoardPosition;
-	_TileRectangle = RectI(Vei2(BoardPosition.x * TILEWIDTH, BoardPosition.y * TILEDEPTH), TILEWIDTH, TILEDEPTH);
+	_TileRectangle = RectI(Vector2_Int(BoardPosition.x * TILEWIDTH, BoardPosition.y * TILEDEPTH), TILEWIDTH, TILEDEPTH);
 }
 
 void TileBoard::Tile::ChangeToFlagged()
@@ -53,9 +53,9 @@ void TileBoard::Tile::ChangeToHidden()
 	_TileState = State::Hidden;
 }
 
-void TileBoard::Tile::DrawTile(Graphics& gfx, Vei2& off)
+void TileBoard::Tile::DrawTile(Graphics& gfx, Vector2_Int& off)
 {
-	Vei2 newpos = off + GetTileScreenPosition();
+	Vector2_Int newpos = off + GetTileScreenPosition();
 	switch (_TileState)
 	{
 	case State::Hidden:
@@ -79,7 +79,7 @@ void TileBoard::Tile::DrawTile(Graphics& gfx, Vei2& off)
 	}
 }
 
-Vei2 TileBoard::Tile::GetTileScreenPosition() const
+Vector2_Int TileBoard::Tile::GetTileScreenPosition() const
 {
-	return Vei2(_TileBoardPosition.x * TILEWIDTH, _TileBoardPosition.y * TILEDEPTH);
+	return Vector2_Int(_TileBoardPosition.x * TILEWIDTH, _TileBoardPosition.y * TILEDEPTH);
 }

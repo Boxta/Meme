@@ -20,7 +20,7 @@
  ******************************************************************************************/
 #pragma once
 #include <queue>
-#include "Vei2.h"
+#include "Vector2.h"
 
 class Mouse
 {
@@ -71,7 +71,7 @@ public:
 		{
 			return type;
 		}
-		Vei2 GetPos() const
+		Vector2_Int GetPos() const
 		{
 			return{ x,y };
 		}
@@ -96,7 +96,7 @@ public:
 	Mouse() = default;
 	Mouse( const Mouse& ) = delete;
 	Mouse& operator=( const Mouse& ) = delete;
-	Vei2 GetPos() const;
+	Vector2_Int GetPos() const;
 	int GetPosX() const;
 	int GetPosY() const;
 	bool LeftIsPressed() const;

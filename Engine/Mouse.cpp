@@ -20,7 +20,7 @@
  ******************************************************************************************/
 #include "Mouse.h"
 
-Vei2 Mouse::GetPos() const
+Vector2_Int Mouse::GetPos() const
 {
 	return { x,y };
 }

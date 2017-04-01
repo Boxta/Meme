@@ -1,5 +1,5 @@
 #pragma once
-#include "Vei2.h"
+#include "Vector2.h"
 #include "Graphics.h"
 #include "RectI.h"
 #include "SpriteCodex.h"
@@ -25,7 +25,7 @@ public:
 
 	public:
 		Tile() = default;
-		Tile(Vei2& BoardPosition);
+		Tile(Vector2_Int& BoardPosition);
 
 		State GetState()
 		{
@@ -34,25 +34,25 @@ public:
 		void ChangeToRevealed();
 		void ChangeToHidden();
 		void ChangeToFlagged();
-		void DrawTile(Graphics& gfx, Vei2& off);
-		Vei2 GetTileScreenPosition() const;
+		void DrawTile(Graphics& gfx, Vector2_Int& off);
+		Vector2_Int GetTileScreenPosition() const;
 		bool _HasBomb = false;
-	private:
-		Vei2 _TileBoardPosition;
+	public:
+		Vector2_Int _TileBoardPosition;
 		State _TileState;
 		RectI _TileRectangle;
 	};
 
 	//FUNCTIONS
 public:
-	TileBoard(Vei2& ScreenPosition);
+	TileBoard(Vector2_Int& ScreenPosition);
 	~TileBoard();
 	void UpdateBoard(float dt);
 	void DrawBoard(Graphics& gfx);
 
 	//MEMBERS
 public:
-	Vei2 _Offset;								//Offset Board In Game Screen Space
+	Vector2_Int _Offset;								//Offset Board In Game Screen Space
 	RectI _BoardRectangle;
 	Tile TileGrid[TILESWIDE * TILESDEEP];		// Tile Array
 private:
