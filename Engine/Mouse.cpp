@@ -20,8 +20,7 @@
  ******************************************************************************************/
 #include "Mouse.h"
 
-
-std::pair<int,int> Mouse::GetPos() const
+Vei2 Mouse::GetPos() const
 {
 	return { x,y };
 }
@@ -68,6 +67,8 @@ Mouse::Event Mouse::Read()
 void Mouse::Flush()
 {
 	buffer = std::queue<Event>();
+	leftIsPressed = false;
+	rightIsPressed = false;
 }
 
 void Mouse::OnMouseLeave()

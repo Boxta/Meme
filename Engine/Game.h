@@ -24,6 +24,7 @@
 #include "Mouse.h"
 #include "Graphics.h"
 #include "TileBoard.h"
+#include <random>
 
 class Game
 {
@@ -45,4 +46,7 @@ private:
 	/*  User Variables              */
 	/********************************/
 	TileBoard Board;
+
+public:
+	static const int BOMBCOUNT = 100;
 };

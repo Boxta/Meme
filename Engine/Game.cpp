@@ -21,13 +21,27 @@
 #include "MainWindow.h"
 #include "Game.h"
 
+using namespace std;
 
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	Board(Vei2(50, 50))
+	Board(Vei2(170, 150))
 {
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<int> XPos(0, Board.TILESWIDE);
+	uniform_int_distribution<int> YPos(0, Board.TILESDEEP);
+	Vei2 BomLocation;
+	for (int b = 0; b < BOMBCOUNT; ++b) {
+		do
+		{
+			BomLocation = Vei2(XPos(gen), YPos(gen));
+		} while (Board.TileGrid[BomLocation.y * Board.TILESWIDE + BomLocation.x]._HasBomb);
+
+		Board.TileGrid[BomLocation.y * Board.TILESWIDE + BomLocation.x]._HasBomb = true;
+	}
 }
 
 void Game::Go()
@@ -40,6 +54,51 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	//Check mouse is within the Board
+	if (wnd.mouse.GetPosX() > Board._Offset.x &&
+		wnd.mouse.GetPosX() < Board._Offset.x + (Board.TILESWIDE * Board.TILEWIDTH) &&
+		wnd.mouse.GetPosY() > Board._Offset.y &&
+		wnd.mouse.GetPosY() < Board._Offset.y + (Board.TILESDEEP * Board.TILEDEPTH))
+	{
+		//Left Click a Tile To Flag It
+		if (wnd.mouse.LeftIsPressed())
+		{
+			Vei2 ClickedTile = Vei2((wnd.mouse.GetPos().x - Board._Offset.x) / Board.TILEWIDTH,
+				(wnd.mouse.GetPos().y - Board._Offset.y) / Board.TILEDEPTH);
+			wnd.mouse.Flush();
+			if (Board.TileGrid[ClickedTile.y * Board.TILESWIDE + ClickedTile.x].GetState() == TileBoard::Tile::State::Hidden )
+			{
+				Board.TileGrid[ClickedTile.y * Board.TILESWIDE + ClickedTile.x].ChangeToRevealed();
+			}
+			else if (Board.TileGrid[ClickedTile.y * Board.TILESWIDE + ClickedTile.x].GetState() == TileBoard::Tile::State::Flagged)
+			{
+				//Flagged So Do Nothing
+			}
+			else if (Board.TileGrid[ClickedTile.y * Board.TILESWIDE + ClickedTile.x].GetState() == TileBoard::Tile::State::Revealed)
+			{
+				//Revealed So Do Nothing
+			}
+		}
+		//Right Click a Tile To Reveal It
+		if (wnd.mouse.RightIsPressed())
+		{
+			Vei2 ClickedTile = Vei2((wnd.mouse.GetPos().x - Board._Offset.x) / Board.TILEWIDTH,
+				(wnd.mouse.GetPos().y - Board._Offset.y) / Board.TILEDEPTH);
+			wnd.mouse.Flush();
+			if (Board.TileGrid[ClickedTile.y * Board.TILESWIDE + ClickedTile.x].GetState() == TileBoard::Tile::State::Hidden)
+			{
+				Board.TileGrid[ClickedTile.y * Board.TILESWIDE + ClickedTile.x].ChangeToFlagged();
+			}
+			else if (Board.TileGrid[ClickedTile.y * Board.TILESWIDE + ClickedTile.x].GetState() == TileBoard::Tile::State::Flagged)
+			{
+				Board.TileGrid[ClickedTile.y * Board.TILESWIDE + ClickedTile.x].ChangeToHidden();
+			}
+			else if (Board.TileGrid[ClickedTile.y * Board.TILESWIDE + ClickedTile.x].GetState() == TileBoard::Tile::State::Revealed)
+			{
+				//Revealed So Do Nothing
+			}
+		}
+	}
 }
 
 void Game::ComposeFrame()

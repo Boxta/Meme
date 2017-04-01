@@ -10,12 +10,13 @@ class TileBoard
 public:
 	static constexpr int TILEWIDTH = 16;
 	static constexpr int TILEDEPTH = 16;
-	static const int TILESWIDE = 10;
-	static const int TILESDEEP = 10;
+	static const int TILESWIDE = 30;
+	static const int TILESDEEP = 20;
 	//CLASSES
 public:
 	class Tile
 	{
+	public:
 		enum class State {
 			Revealed,
 			Hidden,
@@ -25,10 +26,18 @@ public:
 	public:
 		Tile() = default;
 		Tile(Vei2& BoardPosition);
+
+		State GetState()
+		{
+			return _TileState;
+		}
+		void ChangeToRevealed();
+		void ChangeToHidden();
 		void ChangeToFlagged();
 		void DrawTile(Graphics& gfx, Vei2& off);
 		Vei2 GetTileScreenPosition() const;
-	public:
+		bool _HasBomb = false;
+	private:
 		Vei2 _TileBoardPosition;
 		State _TileState;
 		RectI _TileRectangle;
@@ -45,7 +54,8 @@ public:
 public:
 	Vei2 _Offset;								//Offset Board In Game Screen Space
 	RectI _BoardRectangle;
-private:
 	Tile TileGrid[TILESWIDE * TILESDEEP];		// Tile Array
+private:
+	
 };
 

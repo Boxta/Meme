@@ -1,7 +1,5 @@
 #include "TileBoard.h"
 
-
-
 TileBoard::TileBoard(Vei2& ScreenPosition)
 {
 	_Offset = ScreenPosition;
@@ -12,12 +10,8 @@ TileBoard::TileBoard(Vei2& ScreenPosition)
 		for (int y = 0; y < TILESDEEP; ++y)
 		{
 			TileGrid[y * TILESWIDE + x] = Tile(Vei2(x, y));
-			if (y == 4)
-				TileGrid[y * TILESWIDE + x].ChangeToFlagged();
 		}
 	}
-
-	
 }
 
 
@@ -49,21 +43,38 @@ void TileBoard::Tile::ChangeToFlagged()
 	_TileState = State::Flagged;
 }
 
+void TileBoard::Tile::ChangeToRevealed()
+{
+	_TileState = State::Revealed;
+}
+
+void TileBoard::Tile::ChangeToHidden()
+{
+	_TileState = State::Hidden;
+}
+
 void TileBoard::Tile::DrawTile(Graphics& gfx, Vei2& off)
 {
 	Vei2 newpos = off + GetTileScreenPosition();
 	switch (_TileState)
 	{
 	case State::Hidden:
-		SpriteCodex::DrawTile0(newpos, gfx);
-		//SpriteCodex::DrawTile8(GetTileScreenPosition(), gfx);
+		SpriteCodex::DrawTileButton(newpos, gfx);
 		break;
 	case State::Flagged:
-		SpriteCodex::DrawTile0(newpos, gfx);
+		SpriteCodex::DrawTileButton(newpos, gfx);
 		SpriteCodex::DrawTileFlag(newpos, gfx);
 		break;
 	case State::Revealed:
-		SpriteCodex::DrawTileFlag(newpos, gfx);
+		if (_HasBomb)
+		{
+			SpriteCodex::DrawTile0(newpos, gfx);
+			SpriteCodex::DrawTileBomb(newpos, gfx);
+		}
+		else
+		{
+			SpriteCodex::DrawTile0(newpos, gfx);
+		}
 		break;
 	}
 }
