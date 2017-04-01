@@ -67,6 +67,10 @@ Mouse::Event Mouse::Read()
 void Mouse::Flush()
 {
 	buffer = std::queue<Event>();
+}
+
+void Mouse::Clear()
+{
 	leftIsPressed = false;
 	rightIsPressed = false;
 }

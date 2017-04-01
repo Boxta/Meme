@@ -29,6 +29,7 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd ),
 	Board(Vector2_Int(170, 150))
 {
+	//Randomly Set Bombs On The Board
 	random_device rd;
 	mt19937 gen(rd());
 	uniform_int_distribution<int> XPos(0, Board.TILESWIDE);
@@ -60,12 +61,12 @@ void Game::UpdateModel()
 		wnd.mouse.GetPosY() > Board._Offset.y &&
 		wnd.mouse.GetPosY() < Board._Offset.y + (Board.TILESDEEP * Board.TILEDEPTH))
 	{
-		//Left Click a Tile To Flag It
+		//Left Click a Tile To Reveal It
 		if (wnd.mouse.LeftIsPressed())
 		{
 			Vector2_Int ClickedTile = Vector2_Int((wnd.mouse.GetPos().x - Board._Offset.x) / Board.TILEWIDTH,
 				(wnd.mouse.GetPos().y - Board._Offset.y) / Board.TILEDEPTH);
-			wnd.mouse.Flush();
+			wnd.mouse.Clear();
 			if (Board.TileGrid[ClickedTile.y * Board.TILESWIDE + ClickedTile.x].GetState() == TileBoard::Tile::State::Hidden )
 			{
 				Board.TileGrid[ClickedTile.y * Board.TILESWIDE + ClickedTile.x].ChangeToRevealed();
@@ -79,12 +80,12 @@ void Game::UpdateModel()
 				//Revealed So Do Nothing
 			}
 		}
-		//Right Click a Tile To Reveal It
+		//Right Click a Tile To Flag It
 		if (wnd.mouse.RightIsPressed())
 		{
 			Vector2_Int ClickedTile = Vector2_Int((wnd.mouse.GetPos().x - Board._Offset.x) / Board.TILEWIDTH,
 				(wnd.mouse.GetPos().y - Board._Offset.y) / Board.TILEDEPTH);
-			wnd.mouse.Flush();
+			wnd.mouse.Clear();
 			if (Board.TileGrid[ClickedTile.y * Board.TILESWIDE + ClickedTile.x].GetState() == TileBoard::Tile::State::Hidden)
 			{
 				Board.TileGrid[ClickedTile.y * Board.TILESWIDE + ClickedTile.x].ChangeToFlagged();

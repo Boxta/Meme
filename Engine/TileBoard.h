@@ -1,7 +1,7 @@
 #pragma once
 #include "Vector2.h"
 #include "Graphics.h"
-#include "RectI.h"
+#include "Rectangle.h"
 #include "SpriteCodex.h"
 
 class TileBoard
@@ -40,7 +40,7 @@ public:
 	public:
 		Vector2_Int _TileBoardPosition;
 		State _TileState;
-		RectI _TileRectangle;
+		Rectangle_Int _TileRectangle;
 	};
 
 	//FUNCTIONS
@@ -53,7 +53,7 @@ public:
 	//MEMBERS
 public:
 	Vector2_Int _Offset;								//Offset Board In Game Screen Space
-	RectI _BoardRectangle;
+	Rectangle_Int _BoardRectangle;
 	Tile TileGrid[TILESWIDE * TILESDEEP];		// Tile Array
 private:
 	

@@ -108,6 +108,7 @@ public:
 		return buffer.empty();
 	}
 	void Flush();
+	void Clear();
 private:
 	void OnMouseMove( int x,int y );
 	void OnMouseLeave();

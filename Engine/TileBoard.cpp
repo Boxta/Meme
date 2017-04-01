@@ -3,7 +3,7 @@
 TileBoard::TileBoard(Vector2_Int& ScreenPosition)
 {
 	_Offset = ScreenPosition;
-	_BoardRectangle = RectI(_Offset, TILEWIDTH * TILESWIDE, TILEDEPTH * TILESDEEP);
+	_BoardRectangle = Rectangle_Int(_Offset, TILEWIDTH * TILESWIDE, TILEDEPTH * TILESDEEP);
 
 	for (int x = 0; x < TILESWIDE; ++x)
 	{
@@ -35,7 +35,7 @@ TileBoard::Tile::Tile(Vector2_Int& BoardPosition)
 {
 	_TileState = State::Hidden;
 	_TileBoardPosition = BoardPosition;
-	_TileRectangle = RectI(Vector2_Int(BoardPosition.x * TILEWIDTH, BoardPosition.y * TILEDEPTH), TILEWIDTH, TILEDEPTH);
+	_TileRectangle = Rectangle_Int(Vector2_Int(BoardPosition.x * TILEWIDTH, BoardPosition.y * TILEDEPTH), TILEWIDTH, TILEDEPTH);
 }
 
 void TileBoard::Tile::ChangeToFlagged()
