@@ -10,8 +10,9 @@ class TileBoard
 public:
 	static constexpr int TILEWIDTH = 16;
 	static constexpr int TILEDEPTH = 16;
-	static const int TILESWIDE = 30;
-	static const int TILESDEEP = 20;
+	static constexpr int TILESWIDE = 10;
+	static constexpr int TILESDEEP = 5;
+	static constexpr int BOARDERBEZELSIZE = 10;
 	//CLASSES
 public:
 	class Tile
@@ -31,9 +32,13 @@ public:
 		{
 			return _TileState;
 		}
+		int GetCount() {
+			return _TileCount;
+		}
 		void ChangeToRevealed();
 		void ChangeToHidden();
 		void ChangeToFlagged();
+		void Count();
 		void DrawTile(Graphics& gfx, Vector2_Int& off);
 		Vector2_Int GetTileScreenPosition() const;
 		bool _HasBomb = false;
@@ -41,6 +46,7 @@ public:
 		Vector2_Int _TileBoardPosition;
 		State _TileState;
 		Rectangle_Int _TileRectangle;
+		int _TileCount = 0;
 	};
 
 	//FUNCTIONS
@@ -54,6 +60,7 @@ public:
 public:
 	Vector2_Int _Offset;								//Offset Board In Game Screen Space
 	Rectangle_Int _BoardRectangle;
+	Rectangle_Int _BoardRectangleBoarder;
 	Tile TileGrid[TILESWIDE * TILESDEEP];		// Tile Array
 private:
 	

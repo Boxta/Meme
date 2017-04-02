@@ -39,6 +39,9 @@ private:
 	/********************************/
 	/*  User Functions              */
 	/********************************/
+	void RevealTile(const Vector2_Int& startposition);
+	void GameOver();
+	void MouseInputUpdates();
 private:
 	MainWindow& wnd;
 	Graphics gfx;
@@ -48,5 +51,8 @@ private:
 	TileBoard Board;
 
 public:
-	static const int BOMBCOUNT = 100;
+	static const int BOMBCOUNT = 10;
+
+private:
+	bool _GameOver = false;
 };
