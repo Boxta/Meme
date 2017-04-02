@@ -10,8 +10,8 @@ class TileBoard
 public:
 	static constexpr int TILEWIDTH = 16;
 	static constexpr int TILEDEPTH = 16;
-	static constexpr int TILESWIDE = 10;
-	static constexpr int TILESDEEP = 5;
+	static constexpr int TILESWIDE = 8;
+	static constexpr int TILESDEEP = 6;
 	static constexpr int BOARDERBEZELSIZE = 10;
 	//CLASSES
 public:

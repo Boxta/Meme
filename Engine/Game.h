@@ -25,6 +25,7 @@
 #include "Graphics.h"
 #include "TileBoard.h"
 #include <random>
+#include "Sound.h"
 
 class Game
 {
@@ -42,6 +43,7 @@ private:
 	void RevealTile(const Vector2_Int& startposition);
 	void GameOver();
 	void MouseInputUpdates();
+	bool IsGameWin();
 private:
 	MainWindow& wnd;
 	Graphics gfx;
@@ -51,8 +53,10 @@ private:
 	TileBoard Board;
 
 public:
-	static const int BOMBCOUNT = 10;
+	static const int BOMBCOUNT = 5;
 
 private:
 	bool _GameOver = false;
+	bool _MusicToogle = false;
+	Sound music;
 };

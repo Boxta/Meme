@@ -27,7 +27,8 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	Board(Vector2_Int(170, 150))
+	Board(Vector2_Int(170, 150)),
+	music(L"EnterS.wav")
 {
 	//Randomly Set Bombs On The Board
 	random_device rd;
@@ -43,6 +44,8 @@ Game::Game( MainWindow& wnd )
 
 		Board.TileGrid[BomLocation.y * Board.TILESWIDE + BomLocation.x]._HasBomb = true;
 	}
+
+	//music.Play();
 }
 
 void Game::Go()
@@ -55,6 +58,13 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	if (IsGameWin() && !_MusicToogle)
+	{
+		_MusicToogle = true;
+		music.Play();
+		_GameOver = true;
+	}
+
 	if (!_GameOver) {
 		MouseInputUpdates();
 	}
@@ -197,6 +207,29 @@ void Game::MouseInputUpdates()
 			}
 		}
 	}
+}
+
+bool Game::IsGameWin()
+{
+	for (int x = 0; x < Board.TILESWIDE; ++x)
+	{
+		for (int y = 0; y < Board.TILESDEEP; ++y)
+		{
+			//Check All Bombs Have Flags
+			if(Board.TileGrid[y * Board.TILESWIDE + x]._HasBomb && 
+				Board.TileGrid[y * Board.TILESWIDE + x].GetState() != TileBoard::Tile::State::Flagged)
+			{
+				return false;
+			}
+			//Check Non-Bomb Tiles Are Revealed
+			if (!Board.TileGrid[y * Board.TILESWIDE + x]._HasBomb &&
+				Board.TileGrid[y * Board.TILESWIDE + x].GetState() != TileBoard::Tile::State::Revealed)
+			{
+				return false;
+			}
+		}
+	}
+	return true;
 }
 
 void Game::ComposeFrame()
